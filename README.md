@@ -13,7 +13,7 @@ I have sanitized the text, mostly, but the main issues i’m still having are:
 * finding word stems
 
 Some of these problems could be negated, by looking the words and phrases up in a dictionary.
-But to do that, in need to split the text up in to words and word phrases that will match a dict entry. For example the English phrase 'piss off' is a rude way of commanding someone to go away. But looking up the words 'piss' and 'off' will not work. You will need to search for the whole phrase 'piss off'. So then the question is how to know which words devide by space should be considered one phrase. 
+But to do that, in need to split the text up in to words and word phrases that will match a dict entry. For example the English phrase 'piss off' is a rude way of commanding someone to go away. But looking up the words 'piss' and 'off' will not work. You will need to search for the whole phrase 'piss off'. So then the question is how to know which words devided by space should be considered one phrase. 
 
 And the English word "don't" is actually an contractions of the words 'do' + 'not'. so the other question is how to know if a words is a contraction and what the two contracting words are. This is more complex then it sounds because the french language is using contrations for such a long time that some of phrases that where consider contrations, over time became lexicalized to one word. For example: aujourd'hui 'today' deriving from au jour de hui, similar to Spanish al día de hoy, Italian al giorno d'oggi, literally 'at the day of today' and meaning 'nowadays,' but hui is no longer recognized as a meaningful word in modern French. 
 
@@ -57,12 +57,12 @@ The above mentioned problems are the ones i’m focusing on right now, and which
 
 I have extracted the lines form the text that contain at least one item that is problematic. And grouped them in separate files. For each of these problems i still need to implement a solution.
 
-- Problems/-/-
-- problems/…/…
-- problems/'/'
-- problems/œ/œ
-- problems/non-alphabetical
-- problems/only-uppercase
+- [problems/-/-](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/-/-)
+- [problems/…/…](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/%E2%80%A6) 
+- [problems/'/'](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/') 
+- [problems/œ/œ](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/%C5%93) 
+- [problems/non-alphabetical](https://github.com/maartendoth/Natural-Language-Processor/blob/master/problems/non-alphabetical) 
+- [problems/only-uppercase](https://github.com/maartendoth/Natural-Language-Processor/blob/master/problems/only-uppercase)
 
 The general question for these problems is, how to further processes these lines.
 
@@ -97,7 +97,7 @@ Currently, the corpus is created and processed line-by-line as they appeared in 
 
 ## Scripts
 
-- Scritps/ngrams
+- [Scritps/ngrams](https://github.com/maartendoth/Natural-Language-Processor/blob/master/scritps/ngrams) 
 
 ### ngrams
 I have a simple script that can build ngrams. 
@@ -108,3 +108,4 @@ https://en.wikipedia.org/wiki/N-gram
 https://blog.xrds.acm.org/2017/10/introduction-n-grams-need/ (how to calculate bigrams)
 https://sookocheff.com/post/nlp/n-gram-modeling/ (how to calculate ngrams)
 https://web.stanford.edu/~jurafsky/slp3/4.pdf
+[](/tree/master/problems/') 
