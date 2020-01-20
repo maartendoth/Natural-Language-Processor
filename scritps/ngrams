@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+((n=${1:-0})) || exit 1
+
+
+# need to first split text into short sentence - from start to comma
+
+
+
+declare -A ngrams
+
+while read -ra line; do
+
+        for ((i = 0; i < ${#line[@]}; i++)); do
+                ((ngrams[${line[@]:i:n}]++))
+        done
+done 
+
+for i in "${!ngrams[@]}"; do
+#	if [ "${ngrams[$i]}" -gt 1 ]; then
+        echo -e "${ngrams[$i]}|$i" | sort -n
+#	fi
+done
+
+#echo "$result" 
+
+
+
