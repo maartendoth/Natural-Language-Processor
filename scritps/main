@@ -1,0 +1,153 @@
+#! /bin/bash
+clear
+workdir="../problems"
+
+capitals() { 
+    problemlist="$workdir"/uppercase_only
+    output_dir="${problemlist}.d"
+    rm -fr "$output_dir"   
+    mkdir -p "$output_dir"
+
+    # find all words using only upper case
+   
+    problemlist='./problems/uppercase_only'
+    while read -ra words; do
+    #echo "${words[@]}"
+    wordcount="${#words[@]}"
+
+        for ((i=0;i<"$wordcount";i++)); do
+
+            if [[ "${words[$i]}" =~ ^[A-Z]*$ ]]; then
+                if [[ "${words[$i]}" =~ ^[IVXLCDM]+$ ]]; then
+                    if [[ "${words[$i-1]:0:1}" =~ ^[A-Z]$ ]]; then
+                        echo "${words[$i]} --> ${words[@]}" >> "$output_dir"/roman_numerals
+                    else 
+                        if [[ "${words[$i+1]:0:1}" =~ ^[A-Z]$ ]]; then
+                            echo "${words[$i]} --> ${words[@]}" >> "$output_dir"/full_name
+                        else
+                            echo "${words[$i]} --> ${words[@]}" >> "$output_dir"/unkown
+                        fi
+                    fi
+                else
+                    echo "${words[$i]} --> ${words[@]}" >> "$output_dir"/only-uppercase
+                fi
+            fi
+        done
+
+    done < "$problemlist"
+}
+
+hyphens() { 
+    problemlist="$workdir"/-
+    output_dir="${problemlist}.d"
+    rm -fr "$output_dir"        
+    mkdir -p "$output_dir"
+
+    while read -ra words; do
+    #echo "${words[@]}"
+    wordcount="${#words[@]}"
+
+        for ((i=0;i<"$wordcount";i++)); do
+
+            dash_count=`echo "${words[$i]}" | tr -dc "-" | wc -m`
+            echo "$dash_count x - : ${words[$i]}" >> "$output_dir"/test
+
+            if [ "$dash_count" -eq 1 ]; then
+
+                # ' - ' unkown
+                if [ "${words[$i]}" == "-" ]; then
+                    echo " - ==> ${words[@]}" >> "$output_dir"/in_line
+                elif ! [[ "${words[$i]}" =~ [A-Za-z] ]]; then
+                    echo "${words[$i]}" >> "$output_dir"/non-words
+                elif [[ "${words[$i]}" == "-°C" ]]; then
+                    echo "${words[$i]}" >> "$output_dir"/spacial-case
+                else
+                    echo "${words[$i]}" >> "$output_dir"/1
+                fi
+            elif [ "$dash_count" -gt 1 ]; then
+                echo "${words[$i]}" >> "$output_dir"/multiple
+            else
+                echo "${words[$i]}" >> "$output_dir"/not_dash
+            fi
+
+        done
+
+    done < "$problemlist"
+
+    sed -i "s/\"//g" "$output_dir"/1
+    sed -i "s/…//g" "$output_dir"/1
+}
+
+one_hyphen() {
+    problemlist="$workdir"/-.d/1
+    output_dir="${problemlist}.d"
+    rm -fr "$output_dir"        
+    mkdir -p "$output_dir"
+
+    while IFS="-" read -ra parts; do
+
+        if [[ "${parts[0]:0:1}" =~ ^[{A-Z}]$ ]] && [[ "${parts[1]:0:1}" =~ ^[A-Z]$ ]]; then
+            if [ "${parts[0]}" == "${parts[1]}" ]; then
+                echo "${parts[0]}-${parts[1]}" >> "$output_dir"/animal_sounds
+
+            # if one of the words contain no lower case letters    
+            elif ! [[ "${parts[0]}" =~ [a-z] ]] || ! [[ "${parts[1]}" =~ [a-z] ]]; then
+                echo "${parts[0]}-${parts[1]}" >> "$output_dir"/unkown
+
+            # if one of the words contain more then one Capital letter    
+            elif [[ "${parts[0]}" =~ [A-Z]{2,} ]] || [[ "${parts[1]}" =~ [A-Z]{2,} ]]; then
+                echo "${parts[0]}-${parts[1]}" >> "$output_dir"/unkown2
+            else
+                echo "${parts[0]}-${parts[1]}" >> "$output_dir"/names
+            fi      
+        elif [[ "${parts[0]:0:1}" =~ ^[a-z]$ ]] && [[ "${parts[1]:0:1}" =~ ^[a-z]$ ]]; then
+            echo "${parts[0]}-${parts[1]}" >> "$output_dir"/words
+        else
+            echo "${parts[0]}-${parts[1]}" >> "$output_dir"/unsure
+        fi
+
+        # if first item in line, and second is space, its bullet point list - Oh NON ?
+    done < "$problemlist"
+}
+
+multiple_hyphens() {
+
+    while IFS="-" read -ra parts; do
+
+
+# if all the same; sound (bla-bla-bla)
+
+
+# if if no lower case ; probably spelling
+:
+# if uses has 2, one on each end, probebly quoting (-HAAa-)
+
+# if onctaining lower case, but also multipe capitals in one part; probebly a sound (-HAAa-)
+
+# if each part contains only 1 letter; probebly spelling (E-A-U)
+
+# does it contain connection words; à, en, de, et, : probebly a phrase
+
+
+
+
+    done < ./problems/-/multiple
+
+}
+
+
+
+
+
+
+
+
+
+# filter out all non-french words, in 1/words
+# remove duplicates in all resulting wordlists.
+
+capitals
+hyphens
+one_hyphen; exit
+multiple_hyphens
+exit
