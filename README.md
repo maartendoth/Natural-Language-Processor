@@ -48,7 +48,18 @@ I already have a script that can find n-number of ngrams (as much as i want or t
 But i’m not sure, how to further process the results. 
 
 ### Dictionary / word-list
-To be able to look words up in a word-list, i like to aggregate lists of known French words and phrases, and build them into one big list. For the first step, it does not even need to be a dict entry, just a list of known French words is enough to filter out all typo’s, animal sounds, other sounds, uncommon names, etc.
+Once I have finish the NLP to the extent that it can correctly separate the text into words and probable phrases, the idea is to have a list of unique known words and phrases, and compare the output of the NLP against it, to filter out all no existing, words and correct typo’s. 
+
+To be able to do this, i like to aggregate lists of known French words and phrases, and build them into one big list. For the first step (selecting words and phrases to use and ignore when creating language study materials), the word list does not even need to be a dict entry (with meaning or translation), just a list of known French words is enough to filter-out all typo’s, animal sounds, other sounds that are not words, uncommon names, etc.
+
+#### source:
+3000 most common worlds list
+spellchecks
+and other files that contain know French words
+
+http://snowball.tartarus.org/algorithms/french/voc.txt
+http://snowball.tartarus.org/algorithms/french/output.txt
+https://www.ebooksgratuits.com/html/meral_mots_rares_et_anciens.html
 
 ## Notes
 The above mentioned problems are the ones i’m focusing on right now, and which i want to solve before worrying about how to further process the main corpus.
@@ -57,12 +68,7 @@ The above mentioned problems are the ones i’m focusing on right now, and which
 
 I have extracted the lines form the text that contain at least one item that is problematic. And grouped them in separate files. For each of these problems i still need to implement a solution.
 
-- [problems/-/-](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/-/-)
-- [problems/…/…](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/%E2%80%A6) 
-- [problems/'/'](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/') 
-- [problems/œ/œ](https://github.com/maartendoth/Natural-Language-Processor/tree/master/problems/%C5%93) 
-- [problems/non-alphabetical](https://github.com/maartendoth/Natural-Language-Processor/blob/master/problems/non-alphabetical) 
-- [problems/only-uppercase](https://github.com/maartendoth/Natural-Language-Processor/blob/master/problems/only-uppercase)
+You can find them in the "problems" folder.
 
 The general question for these problems is, how to further processes these lines.
 
@@ -97,7 +103,8 @@ Currently, the corpus is created and processed line-by-line as they appeared in 
 
 ## Scripts
 
-- [Scritps/ngrams](https://github.com/maartendoth/Natural-Language-Processor/blob/master/scritps/ngrams) 
+### main
+The top directory of the problem folder, has all the main categories of words or sentences that i had difficulty to parse. The script called main, is an attempt parse these files and put the results in subdir. Viewing the files in the subdirs you can see, which groups had promising results and which are still problematic.
 
 ### ngrams
 I have a simple script that can build ngrams. 
@@ -109,3 +116,19 @@ https://blog.xrds.acm.org/2017/10/introduction-n-grams-need/ (how to calculate b
 https://sookocheff.com/post/nlp/n-gram-modeling/ (how to calculate ngrams)
 https://web.stanford.edu/~jurafsky/slp3/4.pdf
 [](/tree/master/problems/') 
+
+## Tools I might use or add to the project later:
+http://snowball.tartarus.org/algorithms/french/stemmer.html
+http://snowball.tartarus.org/algorithms/french/stop.txt
+https://snowballstem.org/algorithms/
+https://code.google.com/archive/p/stop-words/
+https://www.learnthat.org/pages/view/roots.html
+http://www.angelfire.com/oh5/wordstems/word_stems2.html
+
+## Related topics:
+Stop words
+Word stem
+Natural language processing
+Stemming
+Information extraction
+Text mining
