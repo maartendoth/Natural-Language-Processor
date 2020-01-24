@@ -10,16 +10,21 @@
 declare -A ngrams
 
 while read -ra line; do
-
-        for ((i = 0; i < ${#line[@]}; i++)); do
-                ((ngrams[${line[@]:i:n}]++))
+        array_count="${#line[@]}"
+        #echo $array_count
+        loopcounts=`echo "$array_count - $n + 1" | bc`
+        #echo $loopcounts
+        for ((i = 0; i < $loopcounts; i++)); do
+                ngram="${line[@]:i:n}"
+                ((ngrams["${ngram}"]++))
         done
 done 
 
 for i in "${!ngrams[@]}"; do
 #	if [ "${ngrams[$i]}" -gt 1 ]; then
-        echo -e "${ngrams[$i]}|$i" | sort -n
+                #echo -e "${ngrams[$i]}|$i" | sort -n
 #	fi
+        echo -e "$i" | sort -n
 done
 
 #echo "$result" 

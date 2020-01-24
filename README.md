@@ -117,6 +117,10 @@ https://sookocheff.com/post/nlp/n-gram-modeling/ (how to calculate ngrams)
 https://web.stanford.edu/~jurafsky/slp3/4.pdf
 [](/tree/master/problems/') 
 
+### Preprocessor
+
+see: preprocessor.md
+
 ## Tools I might use or add to the project later:
 http://snowball.tartarus.org/algorithms/french/stemmer.html
 http://snowball.tartarus.org/algorithms/french/stop.txt
@@ -126,9 +130,9 @@ https://www.learnthat.org/pages/view/roots.html
 http://www.angelfire.com/oh5/wordstems/word_stems2.html
 
 ## Related topics:
-Stop words
-Word stem
-Natural language processing
-Stemming
-Information extraction
-Text mining
+[Stop words](https://en.wikipedia.org/wiki/Stop_words)
+[Word stem](https://en.wikipedia.org/wiki/Word_stem)
+[Natural language processing](https://en.wikipedia.org/wiki/Natural_language_processing)
+[Stemming](https://en.wikipedia.org/wiki/Stemming)
+[Information extraction](https://en.wikipedia.org/wiki/Information_extraction)
+[Text mining](https://en.wikipedia.org/wiki/Text_mining)
