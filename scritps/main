@@ -52,6 +52,9 @@ capitals() {
                         echo "${words[$i]} --> ${words[@]}" >> "$output_dir"/one_character
                     else 
                         echo "${words[$i]}" >> "$output_dir"/multiple_character
+
+                        # if containing lower case, but also multiple capitals in one part; probably a sound (HAAa or AAHhaa)
+
                     fi
 
                 fi
@@ -90,7 +93,7 @@ capitals() {
                         initals=`echo "$candidate" | sed -e 's/$/ /' -e 's/\([^ ]\)[^ ]* /\1/g' -e 's/^ *//' | tr '[:upper:]' '[:lower:]'` 
                     #echo "$initals"
                         if [ "$initals" == "$needle" ]; then
-                            echo "$input='$candidate'" >> "$output_dir"/abbreviation
+                            echo "$input='$candidate'" >> "$solutionsdir"/abbreviation
                         fi
                     done <<<"$result"
                 fi
@@ -173,7 +176,9 @@ one_hyphen() {
             echo "${parts[0]}-${parts[1]}" >> "$solutionsdir"/words
         else
             echo "${parts[0]}-${parts[1]}" >> "$output_dir"/unsure
-            # filter out the capitals for start of sentence...
+
+# !! filter out the capitals for start of sentence...
+
         fi
 
         # if first item in line, and second is space, its bullet point list - Oh NON ?
@@ -187,26 +192,46 @@ multiple_hyphens() {
     rm -fr "$output_dir"        
     mkdir -p "$output_dir"
 
-    while IFS="-" read -ra parts; do
+    while IFS= read -r item; do
+    items=(`echo "$item" | tr '-' ' '`)
 
 
-# if all syllables are the same, its probebly a sound (bla-bla-bla)
+    # if it has 2 hyphens, one on each end, its probably a quote (-HAAa-)
+    if [[ "${item}" =~ ^-.+-$ ]] && [ "${#items[@]}" -eq 1 ]; then
+    echo "$item" >> "$solutionsdir"/quote
 
-
-# if no lower case ; probably spelling
-:
-# if it has 2 hyphens, one on each end, its probebly a quote (-HAAa-)
-
-# if conctaining lower case, but also multipe capitals in one part; probebly a sound (-HAAa-)
-
-# if each part contains only 1 letter; probebly spelling (E-A-U)
-
-# does it contain connection words; à, en, de, et, : probebly a phrase
+    # if all syllables are the same, its probably a sound (bla-bla-bla)
+    # if unique-sorting the elements of the array results in only one element, then print "ok". Otherwise print "bad".
+    elif [ "${#items[@]}" -gt 1 ] && [ $(printf "%s\000" "${items[@]}" | LC_ALL=C sort -z -u | grep -z -c .) -eq 1 ] ; then
+    echo "$item" >> "$solutionsdir"/animal_sound
 
 
 
+    # if the word without hypens exist (in dictionary) then its probably spelling.
+    # if it not in the dictionary but, but dividing the word with french spelling rules results in same hyphenized word, then it's probably spelling
+    # if each part contains only 1 letter; probably spelling (E-A-U)
+    # if no lower case ; probably spelling
+    elif ! [[ "$item" =~ [[:lower:]] ]]; then
+        echo "$item" >> "$solutionsdir"/spelling
 
-    done < ./problems/-/multiple
+    # does it contain connection words; à, en, de, : probably a phrase
+    elif [[ "$item" =~ ^.+à|-en-|-de-.+$ ]]; then
+        echo "$item" >> "$solutionsdir"/phrase
+
+    else
+        
+        # if the word without hypens exist in the source file then its probably spelling.
+        word=`echo "$item" | tr -d '-'`; grep "$word" < "$workdir"/- &>-
+        if [ "$?" -eq 0 ];then
+            echo "$word" >> "$solutionsdir"/spelling
+        else 
+            # else unknown
+            echo "$item" >> "$output_dir"/unknown
+        fi
+    
+    fi
+
+    done < "$workdir"/-.d/multiple
 
 }
 
@@ -220,9 +245,8 @@ multiple_hyphens() {
 
 # filter out all non-french words, in 1/words
 # remove duplicates in all resulting wordlists.
-
 capitals
 hyphens;
-one_hyphen; exit
+one_hyphen;
 multiple_hyphens
 exit
